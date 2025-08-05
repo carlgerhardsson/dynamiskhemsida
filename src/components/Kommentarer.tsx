@@ -58,36 +58,36 @@ export default function Kommentarer() {
   }
 
   return (
-    <aside className="w-full md:w-1/3 md:pl-8 mt-8 md:mt-0" style={{ position: 'relative', right: 0, marginRight: 60, marginTop: 20 }}>
-      <Card>
+    <aside className="w-full md:w-2/3 max-w-full md:pl-8 mt-8 md:mt-0">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Kommentarer</CardTitle>
         </CardHeader>
-        <form onSubmit={handleSubmit} className="mb-4 px-6">
+        <form onSubmit={handleSubmit} className="mb-4 px-8">
           <Input
             type="text"
             placeholder="Ditt namn"
             value={namn}
             onChange={e => setNamn(e.target.value)}
             maxLength={40}
-            className="mb-2"
+            className="mb-2 w-full"
           />
           <Textarea
             placeholder="Din kommentar (max 300 tecken)"
             value={text}
             onChange={e => setText(e.target.value)}
             maxLength={300}
-            className="mb-2"
+            className="mb-2 w-full"
           />
           {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
           <Button type="submit" className="w-full" disabled={loading}>
             Skicka kommentar
           </Button>
         </form>
-        <div className="space-y-4 px-6 pb-6">
+        <div className="space-y-4 px-8 pb-8">
           {kommentarer.length === 0 && <div className="text-gray-500">Inga kommentarer än.</div>}
           {kommentarer.map((k, i) => (
-            <Card key={k.id || i} className="bg-gray-100 p-3 shadow-sm">
+            <Card key={k.id || i} className="bg-gray-100 p-4 shadow-sm w-full">
               <div className="font-semibold text-blue-800">{k.namn}</div>
               <div className="text-gray-800 whitespace-pre-line break-words">{k.text}</div>
               <div className="text-xs text-gray-500 mt-1">{new Date(k.createdAt).toLocaleString()}</div>
