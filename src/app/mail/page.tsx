@@ -10,7 +10,7 @@ export default function MailPage() {
     <div className="relative min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex flex-col items-center justify-center py-12 px-4">
       <Card className="w-full max-w-lg mx-auto shadow-lg bg-white/90">
         <CardHeader>
-          <CardTitle className="text-2xl">Anmäl dig till kommande mailutskick</CardTitle>
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">Anmäl dig till kommande mailutskick</h1>
         </CardHeader>
         <CardContent>
           <MailForm />

@@ -11,6 +11,6 @@ test('användare kan lägga till och se kommentar på startsidan', async ({ page
   await page.getByRole('button', { name: /skicka kommentar/i }).click();
 
   // Kontrollera att kommentaren visas
-  await expect(page.getByText('E2E Testare')).toBeVisible();
-  await expect(page.getByText('Detta är en E2E-testkommentar.')).toBeVisible();
+  await expect(page.getByText('E2E Testare').first()).toBeVisible();
+  await expect(page.getByText('Detta är en E2E-testkommentar.').first()).toBeVisible();
 });

@@ -7,13 +7,23 @@ import { Button } from "@/components/ui/button";
 export default function MailForm() {
   const [form, setForm] = useState({ namn: "", email: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError("");
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.namn) {
+      setError("Namn krävs");
+      return;
+    }
+    if (!form.email) {
+      setError("E-post krävs");
+      return;
+    }
     try {
       const res = await fetch("/api/mailutskick", {
         method: "POST",
@@ -23,10 +33,10 @@ export default function MailForm() {
       if (res.ok) {
         setSubmitted(true);
       } else {
-        alert("Något gick fel vid inskickning. Försök igen.");
+        setError("Något gick fel vid inskickning. Försök igen.");
       }
     } catch {
-      alert("Något gick fel vid inskickning. Försök igen.");
+      setError("Något gick fel vid inskickning. Försök igen.");
     }
   }
 
@@ -48,7 +58,6 @@ export default function MailForm() {
           name="namn"
           value={form.namn}
           onChange={handleChange}
-          required
         />
       </div>
       <div>
@@ -59,9 +68,9 @@ export default function MailForm() {
           name="email"
           value={form.email}
           onChange={handleChange}
-          required
         />
       </div>
+      {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
       <Button type="submit" className="w-full">Anmäl dig</Button>
     </form>
   );
