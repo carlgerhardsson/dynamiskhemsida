@@ -1,0 +1,7 @@
+-- CreateTable
+CREATE TABLE "MailUtskick" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "namn" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
