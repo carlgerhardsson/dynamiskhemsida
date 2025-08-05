@@ -22,3 +22,18 @@ jobs:
         run: npm test
       - name: Build project
         run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Install wait-on
+        run: npm install --no-save wait-on
+
+      - name: Start Next.js server
+        run: npm start &
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:3000
+
+      - name: Run Playwright E2E tests
+        run: npx playwright test
