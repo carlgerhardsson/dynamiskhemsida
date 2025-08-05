@@ -70,7 +70,6 @@ export default function Kommentarer() {
             value={namn}
             onChange={e => setNamn(e.target.value)}
             maxLength={40}
-            required
             className="mb-2"
           />
           <Textarea
@@ -78,7 +77,6 @@ export default function Kommentarer() {
             value={text}
             onChange={e => setText(e.target.value)}
             maxLength={300}
-            required
             className="mb-2"
           />
           {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
