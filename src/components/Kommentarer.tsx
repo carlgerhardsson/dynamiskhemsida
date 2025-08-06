@@ -80,7 +80,7 @@ export default function Kommentarer() {
             className="mb-2 w-full"
           />
           {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" variant="outline" className="w-full bg-white text-gray-900 border-gray-300 hover:bg-gray-100" disabled={loading}>
             Skicka kommentar
           </Button>
         </form>
@@ -88,7 +88,7 @@ export default function Kommentarer() {
           {kommentarer.length === 0 && <div className="text-gray-500">Inga kommentarer än.</div>}
           {kommentarer.map((k, i) => (
             <Card key={k.id || i} className="bg-gray-100 p-4 shadow-sm w-full">
-              <div className="font-semibold text-blue-800">{k.namn}</div>
+              <div className="font-semibold text-gray-900">{k.namn}</div>
               <div className="text-gray-800 whitespace-pre-line break-words">{k.text}</div>
               <div className="text-xs text-gray-500 mt-1">{new Date(k.createdAt).toLocaleString()}</div>
             </Card>
