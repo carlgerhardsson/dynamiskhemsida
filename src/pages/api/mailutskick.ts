@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '../../generated/prisma';
 
 import rateLimit from 'express-rate-limit';
+import type { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
@@ -19,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Kör rate limiting manuellt (eftersom Next.js API routes inte har Express middleware)
     let limited = false;
     await new Promise((resolve) => {
-      limiter(req as any, res as any, () => {
+      limiter(req as unknown as Request, res as unknown as Response, () => {
         limited = true;
         resolve(null);
       });
