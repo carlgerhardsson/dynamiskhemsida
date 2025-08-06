@@ -12,7 +12,11 @@ const limiter = rateLimit({
   windowMs: 1 * 1000, // 1 sekund (för test)
   max: 5,
   message: { error: 'För många förfrågningar, försök igen senare.' },
-  keyGenerator: (req) => req.headers['x-forwarded-for'] || req.socket.remoteAddress || '',
+  keyGenerator: (req) => {
+    const forwarded = req.headers['x-forwarded-for'];
+    if (Array.isArray(forwarded)) return forwarded[0] || '';
+    return (forwarded as string) || req.socket.remoteAddress || '';
+  },
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
