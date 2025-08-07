@@ -1,14 +1,11 @@
-
-"use client";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export default function MailForm() {
+export default function MailutskickForm() {
   const [form, setForm] = useState({ namn: "", email: "" });
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
   const [csrfToken, setCsrfToken] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     fetch("/api/mailutskick")
@@ -18,19 +15,10 @@ export default function MailForm() {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError("");
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.namn) {
-      setError("Namn krävs");
-      return;
-    }
-    if (!form.email) {
-      setError("E-post krävs");
-      return;
-    }
     try {
       const res = await fetch("/api/mailutskick", {
         method: "POST",
@@ -40,13 +28,15 @@ export default function MailForm() {
         },
         body: JSON.stringify(form),
       });
+      const data = await res.json().catch(() => null);
+      console.log('API response:', res.status, data);
       if (res.ok) {
         setSubmitted(true);
       } else {
-        setError("Något gick fel vid inskickning. Försök igen.");
+        alert("Något gick fel vid inskickning. Försök igen.");
       }
     } catch {
-      setError("Något gick fel vid inskickning. Försök igen.");
+      alert("Något gick fel vid inskickning. Försök igen.");
     }
   }
 
@@ -61,13 +51,14 @@ export default function MailForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label className="block mb-1 font-medium" htmlFor="namn">Ditt namn</label>
+        <label className="block mb-1 font-medium" htmlFor="namn">Namn</label>
         <Input
           type="text"
           id="namn"
           name="namn"
           value={form.namn}
           onChange={handleChange}
+          required
         />
       </div>
       <div>
@@ -78,10 +69,10 @@ export default function MailForm() {
           name="email"
           value={form.email}
           onChange={handleChange}
+          required
         />
       </div>
-      {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
-      <Button type="submit" className="w-full">Anmäl dig</Button>
+      <Button type="submit" className="w-full">Anmäl dig till mailutskick</Button>
     </form>
   );
 }

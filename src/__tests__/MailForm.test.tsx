@@ -4,11 +4,20 @@ import MailForm from '../components/MailForm';
 
 describe('MailForm', () => {
   beforeEach(() => {
-    global.fetch = jest.fn();
+    global.fetch = jest.fn()
+      // Första anropet: GET /api/mailutskick (CSRF-token)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ csrfToken: 'testtoken' })
+      })
+      // Andra anropet: POST /api/mailutskick (formulär)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({})
+      });
   });
 
   it('renderar formulär och skickar in', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce({ ok: true });
     await act(async () => {
       render(<MailForm />);
     });

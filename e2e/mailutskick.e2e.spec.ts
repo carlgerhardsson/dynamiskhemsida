@@ -9,8 +9,16 @@ test.describe('Mailutskick', () => {
     await page.getByLabel(/ditt namn/i).fill('Testperson');
     await page.getByLabel(/e-post/i).fill('testperson@example.com');
     await page.getByRole('button', { name: /anmä[l|l] dig/i }).click();
-    // Kontrollera att bekräftelse visas (justera texten efter din implementation)
-    await expect(page.getByText(/tack|bekräftelse|du är nu anmäld/i)).toBeVisible();
+    // Logga nätverkstrafik för POST
+    const [response] = await Promise.all([
+      page.waitForResponse(resp => resp.url().includes('/api/mailutskick') && resp.request().method() === 'POST'),
+      page.getByRole('button', { name: /anmä[l|l] dig/i }).click()
+    ]);
+    const status = response.status();
+    const body = await response.json().catch(() => null);
+    console.log('E2E POST /api/mailutskick', { status, body });
+    // Kontrollera att bekräftelse visas (exakt text från komponenten)
+    await expect(page.getByText('Tack för din anmälan till mailutskick!')).toBeVisible();
   });
 
   test('validering visas om fält saknas', async ({ page }) => {
